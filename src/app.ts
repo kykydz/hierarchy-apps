@@ -7,10 +7,7 @@ import { OrganizationRepository } from './repository/organiaztion';
 import { OrganizationService } from './service/organization';
 import { OrganizationController } from './controller/organization';
 
-import multer from 'multer';
-import { FILE_TEMP_PATH } from './config';
 import { fileUploadMiddleware } from './middleware/upload-file';
-const upload = multer({ dest: FILE_TEMP_PATH });
 
 const setupRoutes = async (app: any) => {
 	// init DataSource
@@ -22,12 +19,7 @@ const setupRoutes = async (app: any) => {
 		organizationService
 	);
 
-	app.use(
-		'/api/employee',
-		// upload.single('hierarchy'),
-		fileUploadMiddleware,
-		organizationController.router
-	);
+	app.use('/api/employee', fileUploadMiddleware, organizationController.router);
 
 	app.use('*', (_: Request, res: Response) => {
 		res.status(401).send('Unauthorized');

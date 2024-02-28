@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
 import multer, { diskStorage } from 'multer';
 import fs from 'fs/promises'; // Using promises for cleaner async/await syntax
-import { FILE_TEMP_PATH } from '../config';
+import { FILE_UPLOAD_CONFIG } from '../config';
 
 const storage = diskStorage({
-	destination: FILE_TEMP_PATH,
+	destination: FILE_UPLOAD_CONFIG.TEMP_PATH,
 	filename: (req, file, cb) => {
-		cb(null, `hierarchies_${Date.now()}.json`);
+		cb(null, FILE_UPLOAD_CONFIG.DEFAULT_NAMING());
 	},
 });
 
@@ -18,7 +18,7 @@ export const fileUploadMiddleware = async (
 	next: NextFunction
 ) => {
 	try {
-		upload.single('hierarchy')(req, res, async (err: any) => {
+		upload.single(FILE_UPLOAD_CONFIG.FIELD_NAME)(req, res, async (err: any) => {
 			if (err) {
 				console.log(err);
 				throw new Error('Unable to process the upload file');
