@@ -17,21 +17,17 @@ export class OrganizationService {
 		this.organizationRepository = organizationRepository;
 	}
 
-	initOrganizationHierarchy(): OrganizationEntity {
-		return new OrganizationEntity();
-	}
-
-	createEmployee(employee: EmployeeEntity) {
+	async createEmployee(employee: EmployeeEntity) {
 		try {
-			return this.organizationRepository.addEmployee(employee);
+			return await this.organizationRepository.addEmployee(employee);
 		} catch (error) {
 			throw new Error('Failed to add Employee');
 		}
 	}
 
-	findOneEmployee(id: number): EmployeeEntity | undefined {
+	async findOneEmployee(id: number): Promise<EmployeeEntity | undefined> {
 		try {
-			const employee = this.organizationRepository.findOneEmployee(id);
+			const employee = await this.organizationRepository.findOneEmployee(id);
 
 			if (!employee) {
 				return;
@@ -43,22 +39,29 @@ export class OrganizationService {
 		}
 	}
 
-	getManagers(employee: EmployeeEntity): EmployeeEntity[] {
-		const managers: EmployeeEntity[] = [];
-		let currentEmployee = employee;
+	async getManagersByName(employeeName: String): Promise<any> {
+		const upperManagers: EmployeeEntity[] = [];
+		let employee = await this.organizationRepository.findOneEmployeeByName(
+			employeeName
+		);
+		let currentEmployee: EmployeeEntity = employee;
 
 		while (currentEmployee.managerId !== null) {
-			managers.push(currentEmployee);
-			currentEmployee = this.organizationRepository.findOneEmployee(
-				currentEmployee.id
+			currentEmployee = await this.organizationRepository.findOneEmployee(
+				employee.managerId
 			);
+			upperManagers.push(currentEmployee);
+			console.log(currentEmployee);
 		}
 
-		return managers;
+		return {
+			employee,
+			upperManagers,
+		};
 	}
 
-	getTotalDirectReports(employee: EmployeeEntity): number {
-		return this.employeeRepository.getDirectReportCount(employee);
+	async getTotalDirectReports(employee: EmployeeEntity): Promise<number> {
+		return await this.employeeRepository.getDirectReportCount(employee);
 	}
 
 	getTotalIndirectReports(employee: EmployeeEntity): number {

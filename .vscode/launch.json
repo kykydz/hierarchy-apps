@@ -48,5 +48,31 @@
             },
             "envFile": "${workspaceFolder}/.env"
         },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "npm test",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+              "run",
+              "test"
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "debug test",
+            "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/jest",
+            "args": [
+                "-i",
+                "--runInBand",
+                "--no-cache",
+                "--verbose",
+              ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
+        },
     ]
 }

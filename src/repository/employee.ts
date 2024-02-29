@@ -17,7 +17,7 @@ export class EmployeeRepository {
 		report.managerId = this.entity.id;
 	}
 
-	getDirectReportCount(entity: EmployeeEntity): number {
+	async getDirectReportCount(entity: EmployeeEntity): Promise<number> {
 		return entity.directReports.length;
 	}
 }

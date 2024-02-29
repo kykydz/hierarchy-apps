@@ -8,11 +8,22 @@ export class OrganizationRepository {
 		this.entity = new OrganizationEntity();
 	}
 
-	addEmployee(employee: EmployeeEntity) {
+	async addEmployee(employee: EmployeeEntity) {
 		return this.entity.set(employee);
 	}
 
-	findOneEmployee(id: number): EmployeeEntity | undefined {
+	async findOneEmployee(id: number) {
 		return this.entity.get(id);
+	}
+
+	async findOneEmployeeByName(name: String) {
+		const hierarchies = this.entity.employees;
+		for (const key in hierarchies) {
+			const employee = hierarchies[key];
+			if (employee.name === name) {
+				return employee;
+			}
+		}
+		return null;
 	}
 }

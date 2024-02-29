@@ -20,10 +20,10 @@ describe('Integration Tests', () => {
 				.attach(FILE_UPLOAD_CONFIG.FIELD_NAME, fileData, 'correct.json');
 
 			// Check the response status
-			assert.strictEqual(response.status, 200);
+			expect(response.status).toEqual(200);
 
 			// Optionally, check other properties of the response
-			assert.deepStrictEqual(response.body, CorrectHierarchySchema);
+			expect(response.body).toEqual(CorrectHierarchySchema);
 		});
 	});
 });
