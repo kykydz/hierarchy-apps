@@ -8,6 +8,7 @@ import { OrganizationService } from './service/organization';
 import { OrganizationController } from './controller/organization';
 
 import { fileUploadMiddleware } from './middleware/upload-file';
+import { dataSourceAvailabilityMiddleware } from './middleware/datasource-availability';
 
 const setupRoutes = async (app: any) => {
 	// init DataSource
@@ -19,7 +20,17 @@ const setupRoutes = async (app: any) => {
 		organizationService
 	);
 
-	app.use('/api/employee', fileUploadMiddleware, organizationController.router);
+	app.use(
+		'/api/organization/hierarchy',
+		fileUploadMiddleware,
+		organizationController.routerParser
+	);
+
+	app.use(
+		'/api/organization/employee',
+		dataSourceAvailabilityMiddleware(organizationRepository),
+		organizationController.router
+	);
 
 	app.use('*', (_: Request, res: Response) => {
 		res.status(401).send('Unauthorized');
