@@ -75,32 +75,6 @@ export class OrganizationService {
 		return totalIndirectReports;
 	}
 
-	// parseEmployeeHierarchy(hierarchies: IEmployee[]): IEmployee[] {
-	// 	// validate hierarchies
-	// 	const validationResult = this._validateHierarchies(hierarchies);
-	// 	const employees = validationResult.cleanHierarchy;
-
-	// 	// parse clean hierarchy using hash map storage
-	// 	for (const employee of employees) {
-	// 		this.organizationRepository.addEmployee(employee);
-	// 	}
-
-	// 	for (const employee of employees) {
-	// 		if (employee.managerId !== null) {
-	// 			const manager = this.organizationRepository.findOneEmployee(
-	// 				employee.managerId
-	// 			);
-	// 			if (manager) {
-	// 				manager.directReports = manager.directReports || [];
-	// 				manager.directReports.push(employee);
-	// 			}
-	// 		}
-	// 	}
-
-	// 	// Remove any employees without a manager (top-level employees)
-	// 	return employees.filter((employee) => employee.managerId === null);
-	// }
-
 	parseEmployeeHierarchy(hierarchies: IEmployee[]): IEmployee {
 		// validate hierarchies
 		const validationResult = this._validateHierarchies(hierarchies);
