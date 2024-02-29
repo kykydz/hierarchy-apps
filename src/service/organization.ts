@@ -13,8 +13,12 @@ export class OrganizationService {
 	organizationRepository: OrganizationRepository;
 	employeeRepository: EmployeeRepository;
 
-	constructor(organizationRepository: OrganizationRepository) {
+	constructor(
+		organizationRepository: OrganizationRepository,
+		employeeRepository?: EmployeeRepository
+	) {
 		this.organizationRepository = organizationRepository;
+		this.employeeRepository = employeeRepository;
 	}
 
 	async createEmployee(employee: EmployeeEntity) {
@@ -44,6 +48,10 @@ export class OrganizationService {
 		let employee = await this.organizationRepository.findOneEmployeeByName(
 			employeeName
 		);
+		if (!employee) {
+			return;
+		}
+
 		let currentEmployee: EmployeeEntity = employee;
 
 		while (currentEmployee.managerId !== null) {
@@ -60,22 +68,47 @@ export class OrganizationService {
 		};
 	}
 
-	async getTotalDirectReports(employee: EmployeeEntity): Promise<number> {
+	async getTotalDirectReports(
+		employeeName: String
+	): Promise<number | undefined> {
+		let employee = await this.organizationRepository.findOneEmployeeByName(
+			employeeName
+		);
+		if (!employee) {
+			return;
+		}
 		return await this.employeeRepository.getDirectReportCount(employee);
 	}
 
-	getTotalIndirectReports(employee: EmployeeEntity): number {
-		let totalIndirectReports = 0;
+	async getTotalIndirectReports(employeeName: String): Promise<any> {
+		let employee = await this.organizationRepository.findOneEmployeeByName(
+			employeeName
+		);
+		if (!employee) {
+			return;
+		}
 
-		function countIndirectReports(employee: EmployeeEntity) {
-			employee.directReports.forEach((report: EmployeeEntity) => {
-				totalIndirectReports++;
+		let totalIndirectReports = 0;
+		const indirectReports: EmployeeEntity[] = [];
+
+		function countIndirectReports(currentEmployee: EmployeeEntity) {
+			if (!currentEmployee.directReports) {
+				return;
+			}
+			currentEmployee.directReports.forEach((report: EmployeeEntity) => {
+				if (report.managerId !== employee.id) {
+					totalIndirectReports++;
+					indirectReports.push(report);
+				}
 				countIndirectReports(report);
 			});
 		}
 
 		countIndirectReports(employee);
-		return totalIndirectReports;
+		return {
+			totalIndirectReports,
+			indirectReports,
+		};
 	}
 
 	parseEmployeeHierarchy(hierarchies: IEmployee[]): IEmployee {
@@ -133,7 +166,11 @@ export class OrganizationService {
 			);
 			if (exists) {
 				throw new Error(
-					`Can not parse the hierarchy. "${currentEmployee}" is duplicated`
+					JSON.stringify({
+						statusCode: 400,
+						ccontext: currentEmployee,
+						message: `Can not parse the hierarchy. Some employee data is duplicated`,
+					})
 				);
 			}
 
@@ -142,12 +179,26 @@ export class OrganizationService {
 				// throw error if invalid employee entity (it is manager but managerId is not nll)
 				if (currentEmployee.managerId !== null) {
 					throw new Error(
-						`Can not parse the hierarchy. "${currentEmployee.name}" dont have proper hierarchy`
+						JSON.stringify({
+							statusCode: 400,
+							context: currentEmployee,
+							message: `Can not parse the hierarchy. Top manager can not have managerId`,
+						})
 					);
 				} else {
 					// it is valid top level manager
 					// store top level manager
 					topLevelEmployee = currentEmployee;
+				}
+			} else {
+				if (currentEmployee.managerId === null) {
+					throw new Error(
+						JSON.stringify({
+							statusCode: 400,
+							context: currentEmployee,
+							message: `Can not parse the hierarchy. Employee must have managerId`,
+						})
+					);
 				}
 			}
 

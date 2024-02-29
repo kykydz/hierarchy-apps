@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 export const CorrectHierarchySchema = {
 	id: 1,
 	name: 'raelynn',
@@ -56,3 +58,15 @@ export const CorrectHierarchySchema = {
 		},
 	],
 };
+
+export const incorrectHierarchyOne = JSON.parse(
+	fs.readFileSync('test/fixture/input/faulty-employees.json', {
+		encoding: 'utf-8',
+	})
+);
+
+export const incorrectHierarchyTwo = JSON.parse(
+	fs.readFileSync('test/fixture/input/another-faulty-employees.json', {
+		encoding: 'utf-8',
+	})
+);

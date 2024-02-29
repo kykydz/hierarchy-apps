@@ -29,30 +29,27 @@ describe('Unit Test', () => {
 			};
 
 			organizationService = new OrganizationService(
-				organizationRepositoryMock as unknown as OrganizationRepository
+				organizationRepositoryMock as unknown as OrganizationRepository,
+				employeeRepositoryMock as unknown as EmployeeRepository
 			);
 		});
 
 		describe('createEmployee', () => {
-			it('should call return void when creation is succesful', () => {
+			it('should call return void when creation is succesful', async () => {
 				const employee: EmployeeEntity = DEFAULT_CORRECT_EMPLOYEE;
-				organizationService.createEmployee(employee);
+				await organizationService.createEmployee(employee);
 
 				expect(organizationRepositoryMock.addEmployee).toHaveBeenCalledWith(
 					employee
 				);
 			});
 
-			it('should throw an error "Failed to add Employee" when creation is failed', async () => {
-				organizationRepositoryMock.entity.mockRejectedValue(
+			it('should throw an error "Failed to add Employee" when creation is failed', () => {
+				organizationRepositoryMock.addEmployee.mockRejectedValue(
 					new Error('Failed to add Employee')
 				);
 				const employee: EmployeeEntity = DEFAULT_CORRECT_EMPLOYEE;
-				// try {
-				// 	await organizationService.createEmployee(employee);
-				// } catch (error) {
-				// 	expect(error.message).toEqual('Failed to add Employee');
-				// }
+
 				expect(organizationService.createEmployee(employee)).rejects.toThrow(
 					'Failed to add Employee'
 				);
@@ -111,6 +108,39 @@ describe('Unit Test', () => {
 
 				expect(result.employee.name).toEqual(currentEmployee.name);
 				expect(result.upperManagers.length).toEqual(1);
+			});
+		});
+
+		describe('getTotalDirectReports', () => {
+			it('should return all the current employee direct report', async () => {
+				const currentEmployee = CorrectHierarchySchema;
+				(
+					organizationRepositoryMock.findOneEmployeeByName as jest.Mock
+				).mockResolvedValueOnce(currentEmployee);
+				(
+					employeeRepositoryMock.getDirectReportCount as jest.Mock
+				).mockResolvedValueOnce(2);
+
+				const result = await organizationService.getTotalDirectReports(
+					currentEmployee.name
+				);
+
+				expect(result).toEqual(2);
+			});
+		});
+
+		describe('getTotalIndirectReports', () => {
+			it('should return all the current employee indirect report', async () => {
+				const currentEmployee = CorrectHierarchySchema;
+				(
+					organizationRepositoryMock.findOneEmployeeByName as jest.Mock
+				).mockResolvedValueOnce(currentEmployee);
+
+				const result = await organizationService.getTotalIndirectReports(
+					currentEmployee.name
+				);
+
+				expect(result.totalIndirectReports).toEqual(7);
 			});
 		});
 	});
