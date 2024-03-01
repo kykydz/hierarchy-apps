@@ -69,10 +69,10 @@ export class OrganizationController {
 
 	async countDirectReports(req: Request, res: Response) {
 		try {
-			const manager = this.organizationService.getTotalDirectReports(
+			const directReport = await this.organizationService.getTotalDirectReports(
 				req.params.name
 			);
-			return res.status(200).json(manager);
+			return res.status(200).json(directReport);
 		} catch (error) {
 			// TODO: Create middleware for error handler and mapping
 
@@ -90,7 +90,7 @@ export class OrganizationController {
 
 	async countIndirectReports(req: Request, res: Response) {
 		try {
-			const manager = this.organizationService.getTotalIndirectReports(
+			const manager = await this.organizationService.getTotalIndirectReports(
 				req.params.name
 			);
 			return res.status(200).json(manager);

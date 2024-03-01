@@ -3,21 +3,26 @@ import { createApp } from '../../src/app';
 import fs from 'fs';
 import { CORRECT_INPUT_FILE_PATH, FAULTY_1_INPUT_FILE_PATH } from '../config';
 import { FILE_UPLOAD_CONFIG } from '../../src/config';
-// import { describe, it } from 'node:test';
-import assert from 'assert';
 import { CorrectHierarchySchema } from '../fixture/output/hierarchy';
+import { OrganizationRepository } from '../../src/repository/organiaztion';
 
 describe('Integration Tests', () => {
-	describe('POST /api/employee', () => {
+	const organizationRepository = OrganizationRepository.initDatasource();
+	let app: any;
+
+	beforeEach(async () => {
+		app = await createApp(organizationRepository);
+	});
+	describe('POST /api/organization/hierarchy', () => {
 		describe('Success Case', () => {
 			it('should respond with 200 OK and response with tree hierarchy', async () => {
 				// Use fs.readFileSync to read the file
 				const fileData = fs.readFileSync(CORRECT_INPUT_FILE_PATH);
 
 				// Send a POST request with the defined body
-				const app = await createApp();
+				// const app = await createApp(organizationRepositoryMock);
 				const response: any = await request(app)
-					.post('/api/employee')
+					.post('/api/organization/hierarchy')
 					.attach(FILE_UPLOAD_CONFIG.FIELD_NAME, fileData, 'correct.json');
 
 				// Check the response status
@@ -34,9 +39,9 @@ describe('Integration Tests', () => {
 				const fileData = fs.readFileSync(FAULTY_1_INPUT_FILE_PATH);
 
 				// Send a POST request with the defined body
-				const app = await createApp();
+				// const app = await createApp();
 				const response: any = await request(app)
-					.post('/api/employee')
+					.post('/api/organization/hierarchy')
 					.attach(FILE_UPLOAD_CONFIG.FIELD_NAME, fileData, 'incorrect.json');
 
 				// Check the response status

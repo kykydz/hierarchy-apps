@@ -125,7 +125,7 @@ describe('Unit Test', () => {
 					currentEmployee.name
 				);
 
-				expect(result).toEqual(2);
+				expect(result.directReportCount).toEqual(2);
 			});
 		});
 

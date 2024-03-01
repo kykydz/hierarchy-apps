@@ -3,6 +3,7 @@ import { IEmployee } from '../entity/employee.interface';
 import { OrganizationEntity } from '../entity/organization';
 import { EmployeeRepository } from '../repository/employee';
 import { OrganizationRepository } from '../repository/organiaztion';
+import { isObjectNotEmpty } from '../utils/object-modifier';
 
 interface IValidationHierarchyResult {
 	cleanHierarchy: IEmployee[];
@@ -68,16 +69,17 @@ export class OrganizationService {
 		};
 	}
 
-	async getTotalDirectReports(
-		employeeName: String
-	): Promise<number | undefined> {
+	async getTotalDirectReports(employeeName: String): Promise<any> {
 		let employee = await this.organizationRepository.findOneEmployeeByName(
 			employeeName
 		);
 		if (!employee) {
 			return;
 		}
-		return await this.employeeRepository.getDirectReportCount(employee);
+		return {
+			employee,
+			directReportCount: employee.directReports.length,
+		};
 	}
 
 	async getTotalIndirectReports(employeeName: String): Promise<any> {
@@ -106,6 +108,7 @@ export class OrganizationService {
 
 		countIndirectReports(employee);
 		return {
+			employee,
 			totalIndirectReports,
 			indirectReports,
 		};
@@ -147,6 +150,9 @@ export class OrganizationService {
 
 		// Build hierarchy for each employee
 		const result = buildHierarchy(validationResult.topLevelEmployee, employees);
+
+		// save current orgs enntity to be in treeHierarchical
+		this.organizationRepository.entity.hierarchies = result;
 
 		return result;
 	}

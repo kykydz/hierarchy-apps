@@ -10,11 +10,11 @@ import { OrganizationController } from './controller/organization';
 import { fileUploadMiddleware } from './middleware/upload-file';
 import { dataSourceAvailabilityMiddleware } from './middleware/datasource-availability';
 
-const setupRoutes = async (app: any) => {
-	// init DataSource
-	const organizationRepository = new OrganizationRepository();
-
-	const organizationService = new OrganizationService(organizationRepository);
+const setupRoutes = async (
+	app: any,
+	dataRepository: OrganizationRepository
+) => {
+	const organizationService = new OrganizationService(dataRepository);
 
 	const organizationController = new OrganizationController(
 		organizationService
@@ -27,8 +27,8 @@ const setupRoutes = async (app: any) => {
 	);
 
 	app.use(
-		'/api/organization/employee',
-		dataSourceAvailabilityMiddleware(organizationRepository),
+		'/api/employee',
+		dataSourceAvailabilityMiddleware(dataRepository),
 		organizationController.router
 	);
 
@@ -37,13 +37,13 @@ const setupRoutes = async (app: any) => {
 	});
 };
 
-export const createApp = async () => {
+export const createApp = async (dataRepository: OrganizationRepository) => {
 	const app = express();
 
 	app.use(bodyParser.urlencoded({ extended: false }));
 	app.use(bodyParser.json());
 
-	await setupRoutes(app);
+	await setupRoutes(app, dataRepository);
 
 	return app;
 };

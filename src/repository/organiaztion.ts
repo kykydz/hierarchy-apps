@@ -2,10 +2,18 @@ import { OrganizationEntity } from '../entity/organization';
 import { EmployeeEntity } from '../entity/employee';
 
 export class OrganizationRepository {
+	private static database: OrganizationRepository;
 	entity: OrganizationEntity;
 
-	constructor() {
+	private constructor() {
 		this.entity = new OrganizationEntity();
+	}
+
+	static initDatasource() {
+		if (!OrganizationRepository.database) {
+			OrganizationRepository.database = new OrganizationRepository();
+		}
+		return OrganizationRepository.database;
 	}
 
 	async addEmployee(employee: EmployeeEntity) {
@@ -17,9 +25,9 @@ export class OrganizationRepository {
 	}
 
 	async findOneEmployeeByName(name: String) {
-		const hierarchies = this.entity.employees;
-		for (const key in hierarchies) {
-			const employee = hierarchies[key];
+		const employees = this.entity.employees;
+		for (let index = 1; index <= employees.size; index++) {
+			const employee = employees.get(String(index));
 			if (employee.name === name) {
 				return employee;
 			}
