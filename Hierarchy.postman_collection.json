@@ -1,0 +1,398 @@
+{
+	"info": {
+		"_postman_id": "e5ba48fc-b9f5-463c-829c-0efd05fc84cf",
+		"name": "Hierarchy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4322521"
+	},
+	"item": [
+		{
+			"name": "Create Employee Hierarchy",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "hierarchy",
+							"type": "file",
+							"src": "/Users/kiki/Documents/Projects/evidance-care/employee-hierarchy-nodets/test/fixture/input/correct-employees.json"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:4321/api/organization/hierarchy",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4321",
+					"path": [
+						"api",
+						"organization",
+						"hierarchy"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Sample Response",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "hierarchy",
+									"type": "file",
+									"src": "/Users/kiki/Documents/Projects/evidance-care/employee-hierarchy-nodets/test/fixture/input/correct-employees.json"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:4321/api/organization/hierarchy",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4321",
+							"path": [
+								"api",
+								"organization",
+								"hierarchy"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "463"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1cf-rNAmahIJaJ+efuL+1O7s202HrAM\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 01 Mar 2024 09:58:26 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 1,\n    \"name\": \"raelynn\",\n    \"managerId\": null,\n    \"directReports\": [\n        {\n            \"id\": 2,\n            \"name\": \"darin\",\n            \"managerId\": 1,\n            \"directReports\": [\n                {\n                    \"id\": 4,\n                    \"name\": \"jordana\",\n                    \"managerId\": 2\n                },\n                {\n                    \"id\": 5,\n                    \"name\": \"everett\",\n                    \"managerId\": 2\n                },\n                {\n                    \"id\": 6,\n                    \"name\": \"bertha\",\n                    \"managerId\": 2\n                }\n            ]\n        },\n        {\n            \"id\": 3,\n            \"name\": \"kacie\",\n            \"managerId\": 1,\n            \"directReports\": [\n                {\n                    \"id\": 7,\n                    \"name\": \"peg\",\n                    \"managerId\": 3\n                },\n                {\n                    \"id\": 8,\n                    \"name\": \"hugh\",\n                    \"managerId\": 3\n                },\n                {\n                    \"id\": 9,\n                    \"name\": \"eveleen\",\n                    \"managerId\": 3,\n                    \"directReports\": [\n                        {\n                            \"id\": 10,\n                            \"name\": \"evelina\",\n                            \"managerId\": 9\n                        }\n                    ]\n                }\n            ]\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Direct Manager Count",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4321/api/employee/report/direct/count/:name",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4321",
+					"path": [
+						"api",
+						"employee",
+						"report",
+						"direct",
+						"count",
+						":name"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": "darin"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Sample Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4321/api/employee/report/direct/count/:name",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4321",
+							"path": [
+								"api",
+								"employee",
+								"report",
+								"direct",
+								"count",
+								":name"
+							],
+							"variable": [
+								{
+									"key": "name",
+									"value": "darin"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "209"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"d1-uSWPMcuOSWV/7PBC1bB623DSBfI\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 01 Mar 2024 09:58:29 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"employee\": {\n        \"id\": 2,\n        \"name\": \"darin\",\n        \"managerId\": 1,\n        \"directReports\": [\n            {\n                \"id\": 4,\n                \"name\": \"jordana\",\n                \"managerId\": 2\n            },\n            {\n                \"id\": 5,\n                \"name\": \"everett\",\n                \"managerId\": 2\n            },\n            {\n                \"id\": 6,\n                \"name\": \"bertha\",\n                \"managerId\": 2\n            }\n        ]\n    },\n    \"directReportCount\": 3\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Indirect Manager Count",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4321/api/employee/report/indirect/count/:name",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4321",
+					"path": [
+						"api",
+						"employee",
+						"report",
+						"indirect",
+						"count",
+						":name"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": "darin"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Sample Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4321/api/employee/report/indirect/count/:name",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4321",
+							"path": [
+								"api",
+								"employee",
+								"report",
+								"indirect",
+								"count",
+								":name"
+							],
+							"variable": [
+								{
+									"key": "name",
+									"value": "darin"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "233"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"e9-xPHbg7wMg878SFmx2AG23mQifcU\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 01 Mar 2024 09:58:44 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"employee\": {\n        \"id\": 2,\n        \"name\": \"darin\",\n        \"managerId\": 1,\n        \"directReports\": [\n            {\n                \"id\": 4,\n                \"name\": \"jordana\",\n                \"managerId\": 2\n            },\n            {\n                \"id\": 5,\n                \"name\": \"everett\",\n                \"managerId\": 2\n            },\n            {\n                \"id\": 6,\n                \"name\": \"bertha\",\n                \"managerId\": 2\n            }\n        ]\n    },\n    \"totalIndirectReports\": 0,\n    \"indirectReports\": []\n}"
+				}
+			]
+		},
+		{
+			"name": "Get One Employee By Name",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4321/api/employee/:name",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4321",
+					"path": [
+						"api",
+						"employee",
+						":name"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": "darin"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Sample Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4321/api/employee/:name",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4321",
+							"path": [
+								"api",
+								"employee",
+								":name"
+							],
+							"variable": [
+								{
+									"key": "name",
+									"value": "darin"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "174"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"ae-2pjyhWCAXDC/wtEwYTKA5U/xPJ8\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 01 Mar 2024 09:58:54 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 2,\n    \"name\": \"darin\",\n    \"managerId\": 1,\n    \"directReports\": [\n        {\n            \"id\": 4,\n            \"name\": \"jordana\",\n            \"managerId\": 2\n        },\n        {\n            \"id\": 5,\n            \"name\": \"everett\",\n            \"managerId\": 2\n        },\n        {\n            \"id\": 6,\n            \"name\": \"bertha\",\n            \"managerId\": 2\n        }\n    ]\n}"
+				}
+			]
+		}
+	]
+}
