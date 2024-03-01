@@ -23,6 +23,7 @@ export class OrganizationController {
 			'/report/indirect/count/:name',
 			this.countIndirectReports.bind(this)
 		);
+		this.router.get('/:name', this.findEmployeeByName.bind(this));
 	}
 
 	async parseHierarchy(req: Request, res: Response) {
@@ -59,6 +60,28 @@ export class OrganizationController {
 			const err = JSON.parse(error.message);
 			if (err.statusCode === 400) {
 				return res.status(400).json(err);
+			} else {
+				return res.status(500).send({
+					message: 'Something unexpected happening, we are looking on it',
+				});
+			}
+		}
+	}
+
+	async findEmployeeByName(req: Request, res: Response) {
+		try {
+			const employee = await this.organizationService.findOneEmployeeByName(
+				req.params.name
+			);
+
+			res.status(200).send(employee);
+		} catch (error) {
+			// TODO: Create middleware for error handler and mapping
+
+			console.log(error);
+			const err = JSON.parse(error.message);
+			if (err.statusCode === 404) {
+				return res.status(404).json(err);
 			} else {
 				return res.status(500).send({
 					message: 'Something unexpected happening, we are looking on it',

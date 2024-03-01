@@ -22,17 +22,33 @@ export class OrganizationService {
 		}
 	}
 
-	async findOneEmployee(id: number): Promise<EmployeeEntity | undefined> {
+	async findOneEmployeeByName(
+		name: string
+	): Promise<EmployeeEntity | undefined> {
 		try {
-			const employee = await this.organizationRepository.findOneEmployee(id);
+			const employee = await this.organizationRepository.findOneEmployeeByName(
+				name
+			);
 
 			if (!employee) {
-				return;
+				throw new Error(
+					JSON.stringify({
+						statusCode: 404,
+						ccontext: name,
+						message: `Employee not found`,
+					})
+				);
 			}
 
 			return employee;
 		} catch (error) {
-			throw new Error('Failed to find Employee');
+			throw new Error(
+				JSON.stringify({
+					statusCode: 500,
+					ccontext: name,
+					message: `Failed to find employee`,
+				})
+			);
 		}
 	}
 
