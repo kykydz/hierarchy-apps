@@ -1,9 +1,6 @@
 import { EmployeeEntity } from '../entity/employee';
 import { IEmployee } from '../entity/employee.interface';
-import { OrganizationEntity } from '../entity/organization';
-import { EmployeeRepository } from '../repository/employee';
 import { OrganizationRepository } from '../repository/organiaztion';
-import { isObjectNotEmpty } from '../utils/object-modifier';
 
 interface IValidationHierarchyResult {
 	cleanHierarchy: IEmployee[];
@@ -12,14 +9,9 @@ interface IValidationHierarchyResult {
 
 export class OrganizationService {
 	organizationRepository: OrganizationRepository;
-	employeeRepository: EmployeeRepository;
 
-	constructor(
-		organizationRepository: OrganizationRepository,
-		employeeRepository?: EmployeeRepository
-	) {
+	constructor(organizationRepository: OrganizationRepository) {
 		this.organizationRepository = organizationRepository;
-		this.employeeRepository = employeeRepository;
 	}
 
 	async createEmployee(employee: EmployeeEntity) {

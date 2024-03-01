@@ -1,12 +1,8 @@
 import { EmployeeEntity } from '../../../src/entity/employee';
 import { IEmployee } from '../../../src/entity/employee.interface';
-import { EmployeeRepository } from '../../../src/repository/employee';
 import { OrganizationRepository } from '../../../src/repository/organiaztion';
 import { OrganizationService } from '../../../src/service/organization';
-import {
-	secondEmployeeSample,
-	hierarchySample,
-} from '../../fixture/input/organization';
+import { secondEmployeeSample } from '../../fixture/input/organization';
 import { CorrectHierarchySchema } from '../../fixture/output/hierarchy';
 
 const DEFAULT_CORRECT_EMPLOYEE: IEmployee = secondEmployeeSample;
@@ -15,7 +11,6 @@ describe('Unit Test', () => {
 	describe('OrganizationService', () => {
 		let organizationService: OrganizationService;
 		let organizationRepositoryMock: any;
-		let employeeRepositoryMock: any;
 
 		beforeEach(() => {
 			organizationRepositoryMock = {
@@ -24,13 +19,9 @@ describe('Unit Test', () => {
 				findOneEmployeeByName: jest.fn(),
 				entity: jest.fn(),
 			};
-			employeeRepositoryMock = {
-				getDirectReportCount: jest.fn(),
-			};
 
 			organizationService = new OrganizationService(
-				organizationRepositoryMock as unknown as OrganizationRepository,
-				employeeRepositoryMock as unknown as EmployeeRepository
+				organizationRepositoryMock as unknown as OrganizationRepository
 			);
 		});
 
@@ -117,9 +108,6 @@ describe('Unit Test', () => {
 				(
 					organizationRepositoryMock.findOneEmployeeByName as jest.Mock
 				).mockResolvedValueOnce(currentEmployee);
-				(
-					employeeRepositoryMock.getDirectReportCount as jest.Mock
-				).mockResolvedValueOnce(2);
 
 				const result = await organizationService.getTotalDirectReports(
 					currentEmployee.name
