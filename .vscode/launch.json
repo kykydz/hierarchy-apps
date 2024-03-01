@@ -6,7 +6,7 @@
     "configurations": [
         {
             "nodeVersionHint": 16,
-            "name": "Debug Server",
+            "name": "Run Debug Server",
             "type": "node",
             "request": "launch",
             "args": [
@@ -27,43 +27,9 @@
             "envFile": "${workspaceFolder}/.env"
         },
         {
-            "nodeVersionHint": 16,
-            "name": "Debug Cron - Send Birthday Email",
             "type": "node",
             "request": "launch",
-            "args": [
-                "${workspaceRoot}/index.ts"
-            ],
-            "runtimeArgs": [
-                "--nolazy",
-                "-r",
-                "ts-node/register"
-            ],
-            "cwd": "${workspaceRoot}",
-            "protocol": "inspector",
-            "internalConsoleOptions": "openOnSessionStart",
-            "outputCapture": "std",
-            "env": {
-                "TS_NODE_PROJECT": "${workspaceFolder}/tsconfig.json"
-            },
-            "envFile": "${workspaceFolder}/.env"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "npm test",
-            "runtimeExecutable": "npm",
-            "runtimeArgs": [
-              "run",
-              "test"
-            ],
-            "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "debug test",
+            "name": "Run Debug Test",
             "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/jest",
             "args": [
                 "-i",
