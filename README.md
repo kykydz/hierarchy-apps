@@ -23,3 +23,7 @@ You need to have `docker` apps in your host machine.
 
 1. Open terminal with root folder `{workdir}/`
 2. Run command `docker compose -f docker-compose.yaml up`
+
+### Testing Notes
+
+You can check on `Hierarchy.postman_collection.json` in the root folder directory open the postman collection created for this
