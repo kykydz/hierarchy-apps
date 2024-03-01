@@ -2,9 +2,11 @@
 	"name": "employee-hierarchy-nodets",
 	"version": "1.0.0",
 	"description": "<!-- > Author: Rizky Heri S -->",
-	"main": "index.js",
+	"main": "src/server.ts",
 	"scripts": {
-		"test": "jest --verbose --coverage"
+		"start": "node build/src/server.js",
+		"build": "tsc -p tsconfig.json",
+		"test": "npm run build && jest --coverage"
 	},
 	"author": "",
 	"license": "ISC",
