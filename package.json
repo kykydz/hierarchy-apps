@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "node build/src/server.js",
 		"build": "tsc -p tsconfig.json",
-		"test": "npm run build && jest --coverage"
+		"test": "jest --verbose --coverage"
 	},
 	"author": "",
 	"license": "ISC",
