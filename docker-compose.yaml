@@ -8,4 +8,5 @@ services:
     ports:
       - '4321:4321'
     volumes:
-      - ./src:/usr/src/app
+      - .:/usr/src/app
+    command: [node, 'build/src/server.js']
